@@ -55,7 +55,6 @@ CREATE OR REPLACE TYPE BODY TypeArtiste AS
       END;
 END;
 
-
 /* Insertion des valeurs */
 INSERT INTO Artiste(idArtiste, nomArtiste) VALUES ('1', 'Johnny Halliday');
 INSERT INTO Artiste(idArtiste, nomArtiste) VALUES ('2', 'J.K Rowling');
