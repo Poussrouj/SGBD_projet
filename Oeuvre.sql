@@ -85,7 +85,6 @@ CREATE OR REPLACE TYPE BODY TypeOeuvre AS
     END;
 END;
 
-
 /* Insertion des valeurs */
 INSERT INTO Oeuvre(idOeuvre, titreOeuvre, prixOeuvre, description, critique, idSupport) VALUES ('1', 'Les Misérables', '12', 'Le cauchemar des Bac L', 'La critique', '1');
 INSERT INTO Oeuvre(idOeuvre, titreOeuvre, prixOeuvre, description, critique, idSupport) VALUES ('2', 'Harry Potter à l''école des sorciers', '12', 'Avada Kedavra', 'C bi1 Ari Poteur', '2');
