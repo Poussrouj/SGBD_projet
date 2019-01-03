@@ -11,7 +11,8 @@ CREATE OR REPLACE TYPE TypeOeuvre AS OBJECT (
   MEMBER PROCEDURE ajoutOeuvre,
   MEMBER PROCEDURE supprimerOeuvre,
   MEMBER FUNCTION getOeuvre(idO number) RETURN TypeOeuvre,
-  MEMBER FUNCTION oeuvreDisponible RETURN boolean
+  MEMBER FUNCTION oeuvreDisponible RETURN boolean,
+  STATIC FUNCTION topTenOeuvresParGenre RETURN TypeOeuvre
 );
 
 /* Création de la table */
@@ -71,7 +72,19 @@ CREATE OR REPLACE TYPE BODY TypeOeuvre AS
       END IF;
         RETURN estDisponible;
     END;
+    
+    STATIC FUNCTION topTenOeuvresParGenre RETURN TypeOeuvre IS
+    oeuvres TypeOeuvre;
+    BEGIN
+      SELECT TypeOeuvre(o.idOeuvre, o.titreOeuvre, o.prixOeuvre, o.description, o.critique, o.idSupport) INTO oeuvres FROM Emprunter e, Oeuvre o, Posseder p, Genre g 
+      WHERE o.idOeuvre=e.idOeuvre AND p.idGenre = g.idGenre AND ROWNUM <= 10
+      GROUP BY o.titreOeuvre
+      ORDER BY Count(e.idOeuvre) DESC;
+      COMMIT;
+      RETURN oeuvres;
+    END;
 END;
+
 
 /* Insertion des valeurs */
 INSERT INTO Oeuvre(idOeuvre, titreOeuvre, prixOeuvre, description, critique, idSupport) VALUES ('1', 'Les Misérables', '12', 'Le cauchemar des Bac L', 'La critique', '1');

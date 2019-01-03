@@ -6,7 +6,8 @@ CREATE OR REPLACE TYPE TypeArtiste AS OBJECT (
   CONSTRUCTOR FUNCTION TypeArtiste(idArtiste number, nomArtiste varchar) RETURN SELF AS RESULT,
   MEMBER PROCEDURE ajoutArtiste,
   MEMBER PROCEDURE supprimerArtiste,
-  MEMBER FUNCTION getArtiste(idA number) RETURN TypeArtiste
+  MEMBER FUNCTION getArtiste(idA number) RETURN TypeArtiste,
+  STATIC FUNCTION topTenArtistesParGenre RETURN TypeArtiste
 );
 
 /* Création de la table */
@@ -41,7 +42,19 @@ CREATE OR REPLACE TYPE BODY TypeArtiste AS
       COMMIT;
       RETURN artiste;
     END;
+    
+    STATIC FUNCTION topTenArtistesParGenre RETURN TypeArtiste IS
+      artistes TypeArtiste;
+      BEGIN
+        SELECT TypeArtiste(a.idArtiste, a.nomArtiste) INTO artistes FROM Emprunter e, Oeuvre o, Posseder p, Genre g, Artiste a, Appartenir ap
+        WHERE o.idOeuvre = e.idOeuvre AND p.idGenre = g.idGenre AND ROWNUM <= 10
+        GROUP BY a.nomArtiste
+        ORDER BY Count(ap.idArtiste) DESC;
+        COMMIT;
+        RETURN artistes;
+      END;
 END;
+
 
 /* Insertion des valeurs */
 INSERT INTO Artiste(idArtiste, nomArtiste) VALUES ('1', 'Johnny Halliday');
