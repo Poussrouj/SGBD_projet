@@ -6,8 +6,8 @@ idGenre number(2)
 );
 
 ALTER TABLE Posseder ADD CONSTRAINT pk_posseder PRIMARY KEY (idOeuvre, idGenre);
-ALTER TABLE Posseder ADD CONSTRAINT fk_posseder_oeuvre FOREIGN KEY (idGenre) REFERENCES Genre (idGenre);
-ALTER TABLE Posseder ADD CONSTRAINT fk_posseder_genre FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre);
+ALTER TABLE Posseder ADD CONSTRAINT fk_posseder_oeuvre FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre);
+ALTER TABLE Posseder ADD CONSTRAINT fk_posseder_genre FOREIGN KEY (idGenre) REFERENCES Genre (idGenre);
 
 /* Insertion des valeurs */
 INSERT INTO Posseder(idOeuvre, idGenre) VALUES ('1', '2');
